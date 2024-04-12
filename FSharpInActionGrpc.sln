@@ -6,10 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoLib", "src\ProtoLib\ProtoLib.csproj", "{3BEBF202-907C-445B-A006-E4DDE4057CE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FsharpGrpcGreeterService", "src\FsharpGrpcGreeterService\FsharpGrpcGreeterService.csproj", "{56829622-A4E6-4B18-821D-20EE17C2110A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FsharpGrpcGreeterService.Tests", "src\FsharpGrpcGreeterService.Tests\FsharpGrpcGreeterService.Tests.csproj", "{E19E1909-E286-423D-8578-3212BDF72A1A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{0216234D-EAE1-47B8-89EE-F4028CD285CD}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
@@ -20,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "GrpcGreeterService", "src\GrpcGreeterService\GrpcGreeterService.fsproj", "{7CC6116A-D9F2-45C0-A8FA-3C2C13BEC1B8}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebGreeter", "src\WebGreeter\WebGreeter.fsproj", "{C9A5BC12-7824-446E-9D61-CAD5062C4830}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,13 +34,13 @@ Global
 		{3BEBF202-907C-445B-A006-E4DDE4057CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BEBF202-907C-445B-A006-E4DDE4057CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BEBF202-907C-445B-A006-E4DDE4057CE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56829622-A4E6-4B18-821D-20EE17C2110A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56829622-A4E6-4B18-821D-20EE17C2110A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56829622-A4E6-4B18-821D-20EE17C2110A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56829622-A4E6-4B18-821D-20EE17C2110A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E19E1909-E286-423D-8578-3212BDF72A1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E19E1909-E286-423D-8578-3212BDF72A1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E19E1909-E286-423D-8578-3212BDF72A1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E19E1909-E286-423D-8578-3212BDF72A1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC6116A-D9F2-45C0-A8FA-3C2C13BEC1B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC6116A-D9F2-45C0-A8FA-3C2C13BEC1B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC6116A-D9F2-45C0-A8FA-3C2C13BEC1B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC6116A-D9F2-45C0-A8FA-3C2C13BEC1B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A5BC12-7824-446E-9D61-CAD5062C4830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A5BC12-7824-446E-9D61-CAD5062C4830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A5BC12-7824-446E-9D61-CAD5062C4830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A5BC12-7824-446E-9D61-CAD5062C4830}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
