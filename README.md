@@ -1,23 +1,9 @@
-# bbv .NET solution template
+# sample grpc server and client with f#
 
-## Getting started
+## FAQ
 
-> dotnet test
+untrusted certificates
+: https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-8.0&tabs=visual-studio%2Clinux-ubuntu#ubuntu-trust-the-certificate-for-service-to-service-communication
 
-The following files need manual attention:
-
-1. [Directory.Build.props](./Directory.Build.props)
-   - Target Framework(s)
-   - RuntimeIdentifiers
-2. [global.json](./global.json)
-3. this README file
-
-Then:
-
-1. Update all NuGet packages
-
-## Opinions
-
-- Minimal [.gitignore](./.gitignore), update as needed.
-  This help your heirs to understand the tools to use.
-- Define common properties in [Directory.Build.props](./Directory.Build.props)
+swagger UI url
+: https://localhost:5021/swagger/index.html

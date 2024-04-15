@@ -8,7 +8,7 @@ open Grpc.Core
 type GrpcGreeterService (logger : ILogger<GrpcGreeterService>) =
     inherit Greeter.GreeterBase()
 
-    override _.SayHello(request : HelloRequest, context : ServerCallContext) =
+    override _.SayHello(request : HelloRequest, _ : ServerCallContext) =
         logger.LogInformation("Grpc server was called.")
         let reply = HelloReply()
         reply.Message <- "hello: " + request.Name

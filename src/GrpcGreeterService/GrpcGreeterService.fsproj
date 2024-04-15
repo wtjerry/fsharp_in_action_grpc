@@ -16,6 +16,8 @@
 
     <ItemGroup>
       <PackageReference Include="Grpc.AspNetCore.Server" Version="2.62.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.8.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
 </Project>
