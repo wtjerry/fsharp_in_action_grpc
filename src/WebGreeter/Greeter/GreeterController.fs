@@ -1,13 +1,14 @@
-﻿namespace WebGreeter.Controllers
+﻿namespace FSharpInActionGrpc.WebGreeter.Greeter
 
 open FSharpInActionGrpc
 open Grpc.Net.Client
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
+open FSharpInActionGrpc.WebGreeter.WebGreeterMetrics
 
 [<ApiController>]
 [<Route("[controller]")>]
-type GreeterController (logger : ILogger<GreeterController>) =
+type GreeterController (logger : ILogger<GreeterController>, metrics : WebGreeterMetrics) =
     inherit ControllerBase()
 
     let perfectlyRandomNames =
@@ -22,6 +23,8 @@ type GreeterController (logger : ILogger<GreeterController>) =
     member _.Get() =
         let rng = System.Random()
         let name = perfectlyRandomNames[rng.Next(perfectlyRandomNames.Length)]
+
+        metrics.GiveGreeting(name)
 
         logger.LogInformation("creating channel")
 

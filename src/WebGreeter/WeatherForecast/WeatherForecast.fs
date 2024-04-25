@@ -1,4 +1,4 @@
-namespace WebGreeter
+namespace FSharpInActionGrpc.WebGreeter.WeatherForecast
 
 open System
 

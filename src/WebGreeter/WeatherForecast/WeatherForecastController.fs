@@ -1,9 +1,8 @@
-﻿namespace WebGreeter.Controllers
+﻿namespace FSharpInActionGrpc.WebGreeter.WeatherForecast
 
 open System
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
-open WebGreeter
 
 [<ApiController>]
 [<Route("[controller]")>]
@@ -26,7 +25,7 @@ type WeatherForecastController (logger : ILogger<WeatherForecastController>) =
 
     [<HttpGet>]
     member _.Get() =
-        let rng = System.Random()
+        let rng = Random()
         [|
             for index in 0..4 ->
                 { Date = DateTime.Now.AddDays(float index)

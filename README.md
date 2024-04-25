@@ -7,3 +7,6 @@ untrusted certificates
 
 swagger UI url
 : https://localhost:5021/swagger/index.html
+
+openTelemetry collector docker command
+: docker run -p 127.0.0.1:55679:55679 otel/opentelemetry-collector:0.99.0 2>&1 | tee collector-output.txt
