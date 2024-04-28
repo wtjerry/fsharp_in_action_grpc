@@ -1,0 +1,36 @@
+receivers:
+  # Data sources: traces, metrics, logs
+  otlpjsonfile:
+    include:
+      - "/var/log/otel_output/*.json"
+
+processors:
+  batch:
+  memory_limiter:
+    # 75% of maximum memory up to 2G
+    limit_mib: 1536
+    # 25% of limit up to 2G
+    spike_limit_mib: 512
+    check_interval: 5s
+
+
+exporters:
+  # Data sources: traces, metrics, logs
+  otlp:
+    endpoint: 0.0.0.0:4317
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlpjsonfile]
+      processors: [memory_limiter, batch]
+      exporters: [otlp]
+    metrics:
+      receivers: [otlpjsonfile]
+      processors: [memory_limiter, batch]
+      exporters: [otlp]
+    logs:
+      receivers: [otlpjsonfile]
+      processors: [memory_limiter, batch]
+      exporters: [otlp]
+
