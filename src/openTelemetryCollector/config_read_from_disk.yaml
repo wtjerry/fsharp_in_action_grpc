@@ -1,8 +1,13 @@
 receivers:
-  # Data sources: traces, metrics, logs
-  otlpjsonfile:
+  otlpjsonfile/traces:
     include:
-      - "/var/log/otel_output/*.json"
+      - "/var/log/otel_input/*traces*.json"
+  otlpjsonfile/metrics:
+    include:
+      - "/var/log/otel_input/*metrics*.json"
+  otlpjsonfile/logs:
+    include:
+      - "/var/log/otel_input/*logs*.json"
 
 processors:
   batch:
@@ -16,21 +21,28 @@ processors:
 
 exporters:
   # Data sources: traces, metrics, logs
-  otlp:
-    endpoint: 0.0.0.0:4317
+  otlp/grpc:
+    endpoint: 192.168.1.56:4317
+  otlphttp:
+    endpoint: http://192.168.1.56:4318
+
 
 service:
   pipelines:
     traces:
-      receivers: [otlpjsonfile]
+      receivers: [otlpjsonfile/traces]
       processors: [memory_limiter, batch]
-      exporters: [otlp]
+      exporters: [otlp/grpc, otlphttp]
     metrics:
-      receivers: [otlpjsonfile]
+      receivers: [otlpjsonfile/metrics]
       processors: [memory_limiter, batch]
-      exporters: [otlp]
+      exporters: [otlp/grpc, otlphttp]
     logs:
-      receivers: [otlpjsonfile]
+      receivers: [otlpjsonfile/logs]
       processors: [memory_limiter, batch]
-      exporters: [otlp]
+      exporters: [otlp/grpc, otlphttp]
+  telemetry:
+    logs:
+      level: DEBUG
+
 

@@ -18,9 +18,12 @@ processors:
 
 
 exporters:
-  # Data sources: traces, metrics, logs
-  file:
-    path: /var/log/otel_output/openTelemetryCollectorOutput.json
+  file/traces:
+    path: /var/log/otel_output/traces.json
+  file/metrics:
+    path: /var/log/otel_output/metrics.json
+  file/logs:
+    path: /var/log/otel_output/logs.json
   debug:
     verbosity: detailed
 
@@ -30,13 +33,13 @@ service:
     traces:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [file, debug]
+      exporters: [file/traces, debug]
     metrics:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [file, debug]
+      exporters: [file/metrics, debug]
     logs:
       receivers: [otlp]
       processors: [memory_limiter, batch]
-      exporters: [file, debug]
+      exporters: [file/logs, debug]
 
