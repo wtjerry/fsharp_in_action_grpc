@@ -1,5 +1,12 @@
 # sample grpc server and client with f#
 
+## disclaimer
+THIS IS NOT INTENDED FOR PRODUCTION USE!
+Among other things the following considerations need to be made before using this in production:
+- certificate handling: this solution currently used unsecured grpc / http
+- persistent volumes: this solution doesn't persist any data, eg jaeger database
+- WebGreeter, GrpcGreeterService: those are just playground services to produce traces, logs and metrics (and to improve my f# skills ;)
+
 ## idea
 
 ### problem
