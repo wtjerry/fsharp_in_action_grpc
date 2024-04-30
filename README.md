@@ -28,10 +28,9 @@ generate logs
 4. observe that metrics/traces/logs are generated on disk
 
 consume logs
-1. start the jaeger container
-2. start the otelCollectorFromDisk container
-3. move the previously generated logs to the directory watched by otelCollectorFromDisk
-4. observe that jaeger has imported the traces
+1. from within src/openTelemetryCollector_read_from_disk/ run ```docker-compose up```
+2. copy the previously generated traces to the directory watched by otelCollector (ie. src/openTelemetryCollector_read_from_disk/otel_input/)
+3. observe that jaeger has imported the traces (localhost:16686)
 
 
 ## FAQ
@@ -43,11 +42,5 @@ swagger UI url
 : https://localhost:5021/swagger/index.html
 
 openTelemetry collector to file docker command (note no contrib)
-: docker run --rm --name otelCollectorToDisk -p 127.0.0.1:55679:55679 -p 4317:4317 -p 4318:4318 -v ./config_save_to_disk.yaml:/etc/otelcol/config.yaml -v ./otel_output/:/var/log/otel_output/ otel/opentelemetry-collector:0.99.0
-
-openTelemetry collector from file docker command (note contrib)
-: docker run --rm --name otelCollectorFromDisk -p 127.0.0.1:55679:55679 -v ./config_read_from_disk.yaml:/etc/otelcol-contrib/config.yaml -v ./otel_input/:/var/log/otel_input/ otel/opentelemetry-collector-contrib:0.99.0
-
-jaeger docker command
-: docker run --rm --name jaegerTest -p 16686:16686 -p 4317:4317 -p 4318:4318 jaegertracing/all-in-one:1.56
+: ```docker run --rm --name otelCollectorToDisk -p 127.0.0.1:55679:55679 -p 4317:4317 -p 4318:4318 -v ./config_save_to_disk.yaml:/etc/otelcol/config.yaml -v ./otel_output/:/var/log/otel_output/ otel/opentelemetry-collector:0.99.0```
 

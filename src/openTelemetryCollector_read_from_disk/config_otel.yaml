@@ -21,10 +21,12 @@ processors:
 
 exporters:
   # Data sources: traces, metrics, logs
-  otlp/grpc:
-    endpoint: 192.168.1.56:4317
-  otlphttp:
-    endpoint: http://192.168.1.56:4318
+  otlp/jaeger:
+    endpoint: jaeger:4317
+    tls:
+      insecure: true
+  debug:
+    verbosity: detailed
 
 
 service:
@@ -32,17 +34,17 @@ service:
     traces:
       receivers: [otlpjsonfile/traces]
       processors: [memory_limiter, batch]
-      exporters: [otlp/grpc, otlphttp]
-    metrics:
-      receivers: [otlpjsonfile/metrics]
-      processors: [memory_limiter, batch]
-      exporters: [otlp/grpc, otlphttp]
-    logs:
-      receivers: [otlpjsonfile/logs]
-      processors: [memory_limiter, batch]
-      exporters: [otlp/grpc, otlphttp]
-  telemetry:
-    logs:
-      level: DEBUG
+      exporters: [otlp/jaeger]
+        #    metrics:
+        #      receivers: [otlpjsonfile/metrics]
+        #      processors: [memory_limiter, batch]
+        #      exporters: [debug]
+        #    logs:
+        #      receivers: [otlpjsonfile/logs]
+        #      processors: [memory_limiter, batch]
+        #      exporters: [debug]
+        #  telemetry:
+        #    logs:
+        #      level: DEBUG
 
 
