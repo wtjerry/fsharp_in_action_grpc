@@ -1,0 +1,6 @@
+scrape_configs:
+  - job_name: "otelCollector"
+    scrape_interval: 10s
+    static_configs:
+      - targets: ["otelCollector:8888"]
+      - targets: ["otelCollector:8889"]

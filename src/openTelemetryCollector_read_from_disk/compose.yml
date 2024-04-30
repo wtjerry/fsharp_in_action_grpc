@@ -8,12 +8,20 @@ services:
     volumes:
       - "./config_otel.yaml:/etc/otelcol-contrib/config.yaml"
       - "./otel_input/:/var/log/otel_input/"
+    ports:
+      - "8888:8888" # Prometheus metrics exposed by the collector
+      - "8889:8889" # Prometheus exporter metrics
+      - "4317:4317" # OTLP gRPC receiver
+      - "4318:4318"
   jaeger:
     image: jaegertracing/all-in-one:1.56
     ports:
       - "16686:16686"
   prometheus:
     image: prom/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
     ports:
       - "9090:9090"
 

@@ -25,8 +25,9 @@ exporters:
     endpoint: jaeger:4317
     tls:
       insecure: true
-  prometheusremotewrite:
-    endpoint: "http://prometheus:9090/api/v1/push"
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    send_timestamps: false # true would send the actual timestamps, prometheus cannot deal with that if the timestamps are too far in the past. Which is basically always the case in the scenario we are in here
     resource_to_telemetry_conversion:
       enabled: true
   debug:
@@ -42,7 +43,7 @@ service:
     metrics:
       receivers: [otlpjsonfile/metrics]
       processors: [memory_limiter, batch]
-      exporters: [prometheusremotewrite]
+      exporters: [prometheus]
         #    logs:
         #      receivers: [otlpjsonfile/logs]
         #      processors: [memory_limiter, batch]
