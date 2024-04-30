@@ -25,6 +25,10 @@ exporters:
     endpoint: jaeger:4317
     tls:
       insecure: true
+  prometheusremotewrite:
+    endpoint: "http://prometheus:9090/api/v1/push"
+    resource_to_telemetry_conversion:
+      enabled: true
   debug:
     verbosity: detailed
 
@@ -35,10 +39,10 @@ service:
       receivers: [otlpjsonfile/traces]
       processors: [memory_limiter, batch]
       exporters: [otlp/jaeger]
-        #    metrics:
-        #      receivers: [otlpjsonfile/metrics]
-        #      processors: [memory_limiter, batch]
-        #      exporters: [debug]
+    metrics:
+      receivers: [otlpjsonfile/metrics]
+      processors: [memory_limiter, batch]
+      exporters: [prometheusremotewrite]
         #    logs:
         #      receivers: [otlpjsonfile/logs]
         #      processors: [memory_limiter, batch]

@@ -37,7 +37,9 @@ generate logs
 consume logs
 1. from within src/openTelemetryCollector_read_from_disk/ run ```docker-compose up```
 2. copy the previously generated traces to the directory watched by otelCollector (ie. src/openTelemetryCollector_read_from_disk/otel_input/)
-3. observe that jaeger has imported the traces (localhost:16686)
+3. observe that:
+    1. jaeger has imported traces (localhost:16686)
+    2. prometheus has imported metrics (localhost:9090)
 
 
 ## FAQ
