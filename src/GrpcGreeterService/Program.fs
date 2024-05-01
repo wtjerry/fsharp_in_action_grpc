@@ -8,6 +8,9 @@ open Microsoft.Extensions.Logging
 open OpenTelemetry.Logs
 open OpenTelemetry.Resources
 open OpenTelemetry.Exporter
+open OpenTelemetry.Metrics
+open OpenTelemetry.Trace
+open FSharpInActionGrpc.GrpcGreeterService.GrpcGreeterServiceMetrics
 
 module Program =
     [<EntryPoint>]
@@ -24,12 +27,32 @@ module Program =
         let exporterConfig =
             fun (e: OtlpExporterOptions) -> e.Endpoint = Uri("https://127.0.0.1:4317") |> ignore
 
+        builder.Services.AddSingleton<GrpcGreeterServiceMetrics>() |> ignore
+
         builder.Logging.AddOpenTelemetry(fun options ->
-                   options
-                       .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName))
-                       .AddOtlpExporter(exporterConfig)
-                   |> ignore)
-               |> ignore
+            options
+                .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName))
+                .AddOtlpExporter(exporterConfig)
+            |> ignore)
+        |> ignore
+
+        builder.Services
+            .AddOpenTelemetry()
+            .ConfigureResource(fun resource -> resource.AddService(serviceName) |> ignore)
+            .WithTracing(fun tracing ->
+                tracing
+                    .AddAspNetCoreInstrumentation()
+                    .AddOtlpExporter(exporterConfig)
+                |> ignore)
+            .WithMetrics(fun metrics ->
+                metrics
+                    .AddAspNetCoreInstrumentation()
+                    .AddMeter("Microsoft.AspNetCore.Hosting")
+                    .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
+                    .AddMeter(MetricName)
+                    .AddOtlpExporter(exporterConfig)
+                |> ignore)
+        |> ignore
 
         let app = builder.Build()
 
