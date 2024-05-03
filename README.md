@@ -28,24 +28,18 @@ But use an intermediary file storage mechanism so that we can ship those logs to
 
 ### example with this repository
 
-generate logs
+### generate logs
 1. start the WebGreeter and GrpcGreeterService programs
 2. start the otelCollectorToDisk containers
 3. generate some logs&metrics (eg via swagger UI)
 4. observe that metrics/traces/logs are generated on disk
 
-consume logs
-1. from within src/openTelemetryCollector_read_from_disk/ run ```docker-compose up```
-2. copy the previously generated traces to the directory watched by otelCollector (ie. src/openTelemetryCollector_read_from_disk/otel_input/)
-3. observe that:
-    1. jaeger has imported traces (localhost:16686)
-    2. prometheus has imported metrics (localhost:9090)
-
-### ELK stack setup
+### onetime setup of ELK / jaeger / prometheus stack
 0. change credentials in .env file!
-1. ```docker-compose up```
+1. from within src/openTelemetryCollector_read_from_disk/ run ```docker-compose up```
 2. create some tmp dir (eg. ```mktemp -d```)
-3. extract the generated certificate from the setup container: ```docker cp %your_setup_container_name%:/usr/share/elasticsearch/config/certs/ca/ca.crt %your_temp_dir%
+3. extract the generated certificate from the setup container: ```docker cp %your_es_container_name_eg_es01%:/usr/share/elasticsearch/config/certs/ca/ca.crt %your_temp_dir%
+    a. you might need to: ```chown $USER:$USER %your_temp_dir%/ca.crt``` (if you are using docker, because of root)
 4. verify elasticsearch is up and using the generated cert: ```curl --cacert %your_temp_dir%/ca.crt -u %your_username%:%your_password% https://localhost:9200```
 5. verify that you can login to kibana: https://localhost:5601
 6. under follow the tutorial to properly connect the fleet-server
@@ -55,6 +49,15 @@ consume logs
     4. configure cert 
     5. ATTENTION: make sure of propper indentation. "certificate_authorities" is indented once and the actual cert twice
 7. verify that you can see agent logs
+8. optional: ```docker compose stop```
+
+### consume logs
+1. ensure containers are started: ```docker compose start```
+2. copy the previously generated traces to the directory watched by otelCollector (ie. src/openTelemetryCollector_read_from_disk/otel_input/)
+3. observe that:
+    1. jaeger has imported traces (localhost:16686)
+    2. prometheus has imported metrics (localhost:9090)
+    3. elastic has imported traces, metrics and logs (https://localhost:5601 -> Observability -> APM services)
 
 
 ## FAQ
