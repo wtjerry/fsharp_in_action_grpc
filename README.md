@@ -41,6 +41,21 @@ consume logs
     1. jaeger has imported traces (localhost:16686)
     2. prometheus has imported metrics (localhost:9090)
 
+### ELK stack setup
+0. change credentials in .env file!
+1. ```docker-compose up```
+2. create some tmp dir (eg. ```mktemp -d```)
+3. extract the generated certificate from the setup container: ```docker cp %your_setup_container_name%:/usr/share/elasticsearch/config/certs/ca/ca.crt %your_temp_dir%
+4. verify elasticsearch is up and using the generated cert: ```curl --cacert %your_temp_dir%/ca.crt -u %your_username%:%your_password% https://localhost:9200```
+5. verify that you can login to kibana: https://localhost:5601
+6. under follow the tutorial to properly connect the fleet-server
+    1. tutorial: under "Reconfigure output, add certificate" at https://www.elastic.co/blog/getting-started-with-the-elastic-stack-and-docker-compose-part-2
+    2. configure host, eg https://es01:9200
+    3. configure fingerprint, ```openssl x509 -fingerprint -sha256 -noout -in /tmp/ca.crt | awk -F"=" {' print $2 '} | sed s/://g```
+    4. configure cert 
+    5. ATTENTION: make sure of propper indentation. "certificate_authorities" is indented once and the actual cert twice
+7. verify that you can see agent logs
+
 
 ## FAQ
 
@@ -53,3 +68,6 @@ swagger UI url
 openTelemetry collector to file docker command (note no contrib)
 : ```docker run --rm --name otelCollectorToDisk -p 127.0.0.1:55679:55679 -p 4317:4317 -p 4318:4318 -v ./config_save_to_disk.yaml:/etc/otelcol/config.yaml -v ./otel_output/:/var/log/otel_output/ otel/opentelemetry-collector:0.99.0```
 
+
+# credits
+The whole ELK stack docker compose setup is heavily based on: https://www.elastic.co/blog/getting-started-with-the-elastic-stack-and-docker-compose-part-2

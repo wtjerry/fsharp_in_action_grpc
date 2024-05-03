@@ -30,6 +30,12 @@ exporters:
     send_timestamps: false # true would send the actual timestamps, prometheus cannot deal with that if the timestamps are too far in the past. Which is basically always the case in the scenario we are in here
     resource_to_telemetry_conversion:
       enabled: true
+  otlp/elastic: 
+    endpoint: "${ELASTIC_APM_SERVER_ENDPOINT}"
+    tls:
+      insecure: true
+    headers:
+      Authorization: "Bearer ${ELASTIC_APM_SECRET_TOKEN}"  
   debug:
     verbosity: detailed
 
@@ -39,17 +45,16 @@ service:
     traces:
       receivers: [otlpjsonfile/traces]
       processors: [memory_limiter, batch]
-      exporters: [otlp/jaeger]
+      exporters: [otlp/jaeger, otlp/elastic]
     metrics:
       receivers: [otlpjsonfile/metrics]
       processors: [memory_limiter, batch]
-      exporters: [prometheus]
-        #    logs:
-        #      receivers: [otlpjsonfile/logs]
-        #      processors: [memory_limiter, batch]
-        #      exporters: [debug]
-        #  telemetry:
-        #    logs:
-        #      level: DEBUG
-
+      exporters: [prometheus, otlp/elastic]
+    logs: 
+      receivers: [otlpjsonfile/logs]
+      processors: [memory_limiter, batch]
+      exporters: [otlp/elastic]
+  telemetry:
+    logs:
+      level: DEBUG
 
