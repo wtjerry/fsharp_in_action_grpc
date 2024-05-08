@@ -5,6 +5,7 @@ open Grpc.Net.Client
 open Microsoft.AspNetCore.Mvc
 open Microsoft.Extensions.Logging
 open FSharpInActionGrpc.WebGreeter.WebGreeterMetrics
+open FSharpInActionGrpc.WebGreeter.LoggerMessages
 
 [<ApiController>]
 [<Route("[controller]")>]
@@ -38,11 +39,10 @@ type GreeterController (logger : ILogger<GreeterController>, metrics : WebGreete
         task {
             logger.LogInformation("calling grpc service")
             let! reply = client.SayHelloAsync(helloRequest).ResponseAsync |> Async.AwaitTask
-            let result = $"Got a reply from grpc: '{reply.Message}'"
-            logger.LogInformation(result)
+            LogGotReplyFrom logger reply.Message
 
             channel.ShutdownAsync() |> Async.AwaitTask |> ignore
             logger.LogInformation("shutdown")
 
-            return result
+            return $"Got a reply from grpc: '{reply.Message}'"
         }

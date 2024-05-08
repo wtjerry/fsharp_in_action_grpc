@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="Properties\LoggerMessages.fs" />
         <Compile Include="WebGreeterMetrics.fs" />
         <Compile Include="WeatherForecast\WeatherForecast.fs" />
         <Compile Include="WeatherForecast\WeatherForecastController.fs" />
